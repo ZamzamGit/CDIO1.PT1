@@ -1,8 +1,7 @@
-import java.io.File;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class TUI {
+public class TUI implements ITUI{
 
     private UserDAO dao;
     private Scanner scanner;
@@ -29,22 +28,7 @@ public class TUI {
                         quit = true;
                         break;
                     case 1:
-                        System.out.println("ID");
-                        int userID = scanner.nextInt();
-                        System.out.println("Brugernavn");
-                        String userName = scanner.next();
-                        System.out.println("Ini");
-                        String ini = scanner.next();
-                        System.out.println("CPR");
-                        String cpr = scanner.next();
-                        System.out.println("Password");
-                        String password = scanner.next();
-                        UserDTO user = null;
-                       // String roles = scanner.nextLine();
-                        //user.addRole(roles);
-                        user = new UserDTO(userID, userName, ini, cpr, password);
-                        dao.createUser(user);
-                        System.out.println("Bruger oprettet\n");
+                        createUser();
                         break;
                     case 2:
                         System.out.println("Indtast id");
@@ -86,5 +70,55 @@ public class TUI {
         System.out.println("4 for at rette en bruger");
         System.out.println("5 for at slette en bruger");
         System.out.println("6 for at se valgmulighederne\n");
+    }
+
+    @Override
+    public void createUser() throws DALException {
+        System.out.println("ID");
+        int userID = scanner.nextInt();
+        if (userID < 11 || userID > 99) {
+            throw new DALException("Ikke mellem intervallet 11 til 99");
+        }
+        System.out.println("Brugernavn");
+        String userName = scanner.next();
+        if (userName.length() < 2 || userName.length() > 20) {
+            throw new DALException("Brugernavn er ikke mellem 2 til 20 tegn");
+        }
+
+        System.out.println("Ini");
+        String ini = scanner.next();
+        if (ini.length() < 2 || userName.length() > 4) {
+            throw new DALException("Initial er ikke mellem 2 til 4 tegn");
+        }
+            System.out.println("CPR");
+            String cpr = scanner.next();
+            System.out.println("Password");
+            String password = scanner.next();
+            UserDTO user;
+            // String roles = scanner.nextLine();
+            //user.addRole(roles);
+            user = new UserDTO(userID, userName, ini, cpr, password);
+            dao.createUser(user);
+            System.out.println("Bruger oprettet\n");
+        }
+
+    @Override
+    public void updateUser() {
+
+    }
+
+    @Override
+    public void deleteUser() {
+
+    }
+
+    @Override
+    public void showUser() {
+
+    }
+
+    @Override
+    public void showAllUsers() {
+
     }
 }
