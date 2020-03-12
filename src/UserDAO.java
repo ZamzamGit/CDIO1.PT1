@@ -39,14 +39,19 @@ public class UserDAO implements IUserDAO {
                 throw new DALException("Allerede en bruger med dennne ID");
             }
         }
+
         users.add(user);
         userStore.writeToDisk(users);
     }
 
     @Override
     public void updateUser(UserDTO user) throws DALException {
-
-
+        for (UserDTO u : users) {
+            if(u.getUserID() != user.getUserID()) {
+                throw new DALException("Ingen brugere med denne ID");
+            }
+        }
+        userStore.writeToDisk(users);
     }
 
     @Override
@@ -57,15 +62,15 @@ public class UserDAO implements IUserDAO {
                 System.out.println("Bruger fjernet");
                 users.remove(users.get(i));
                 foundPerson = true;
+                userStore.writeToDisk(users);
             }
-
         }
         if (!foundPerson) {
             throw new DALException("Ingen bruger med denne ID");
         }
     }
 
-    public void readDisk() {
+    public void readFromDisk() {
         File file = new File("user.data");
         if (file.exists()) {
             users = userStore.readFromDisk();

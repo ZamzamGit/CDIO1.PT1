@@ -3,7 +3,7 @@ import java.util.List;
 
 public class UserStore {
 
-    public  void writeToDisk(List<UserDTO> list){
+    public void writeToDisk(List<UserDTO> list){
         try {
             FileOutputStream fos = new FileOutputStream("user.data");
             ObjectOutputStream outputStream = new ObjectOutputStream(fos);
@@ -15,7 +15,7 @@ public class UserStore {
         }
     }
 
-    public  List<UserDTO> readFromDisk(){
+    public List<UserDTO> readFromDisk(){
         List<UserDTO> list = null;
         try {
             ObjectInputStream temp
