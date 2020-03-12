@@ -1,5 +1,4 @@
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import java.util.*;
 
 public class TUI implements ITUI{
 
@@ -87,23 +86,26 @@ public class TUI implements ITUI{
 
         System.out.println("Ini");
         String ini = scanner.next();
-        if (ini.length() < 2 || userName.length() > 4) {
+        if (ini.length() < 2 || ini.length() > 4) {
             throw new DALException("Initial er ikke mellem 2 til 4 tegn");
         }
             System.out.println("CPR");
             String cpr = scanner.next();
-            System.out.println("Password");
-            String password = scanner.next();
-            UserDTO user;
-            // String roles = scanner.nextLine();
-            //user.addRole(roles);
-            user = new UserDTO(userID, userName, ini, cpr, password);
+            String password = password();
+            UserDTO user = null;
+
+            user.addRole("Admin");
+
+            user = new UserDTO(userID, userName, ini, cpr, password, user.getRoles());
             dao.createUser(user);
             System.out.println("Bruger oprettet\n");
         }
 
     @Override
     public void updateUser() {
+
+
+
 
     }
 
@@ -120,5 +122,21 @@ public class TUI implements ITUI{
     @Override
     public void showAllUsers() {
 
+    }
+
+    public String password() {
+        String character = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        int lenght = 8;
+        String password = "";
+        Random random = new Random();
+        char[] text = new char[lenght];
+
+        for (int i = 0; i < lenght; i++) {
+            text[i] = character.charAt(random.nextInt(character.length()));
+        }
+        for (int i = 0; i < text.length; i++) {
+            password += text[i];
+        }
+        return password;
     }
 }

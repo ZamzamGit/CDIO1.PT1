@@ -46,13 +46,28 @@ public class UserDAO implements IUserDAO {
 
     @Override
     public void updateUser(UserDTO user) throws DALException {
+        for (int i = 0; i < users.size(); i++) {
+
+        }
+
+
+
+        /*
         for (UserDTO u : users) {
             if(u.getUserID() != user.getUserID()) {
                 throw new DALException("Ingen brugere med denne ID");
             }
         }
+        for (UserDTO u: users) {
+
+        }
+
+
         userStore.writeToDisk(users);
+
+         */
     }
+
 
     @Override
     public void deleteUser(int userId) throws DALException {
