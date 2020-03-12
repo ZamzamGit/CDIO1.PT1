@@ -11,7 +11,7 @@ public class UserDTO implements Serializable {
     private String password;
     private List<String> roles;
 
-    public UserDTO(int userID, String userName, String ini, String cpr, String password, List<String> roles) {
+    public UserDTO(int userID, String userName, String ini, String cpr, String password) {
         this.userID = userID;
         this.userName = userName;
         this.ini = ini;
@@ -80,7 +80,7 @@ public class UserDTO implements Serializable {
     @Override
     public String toString() {
         return "[userId = " + userID + ", userName = " + userName + ", ini = " + ini + ", cpr = "
-                + cpr + ", password = " + password + "]";
+                + cpr + ", password = " + password + ", roles = " + roles  + "]";
     }
 }
 

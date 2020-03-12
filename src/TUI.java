@@ -1,24 +1,24 @@
 import java.util.*;
 
-public class TUI implements ITUI{
+public class TUI  {
 
-    private UserDAO dao;
+    private UserFunk funk;
     private Scanner scanner;
 
-    public TUI(UserDAO dao) {
-        this.dao = dao;
+    public TUI(UserFunk funk) {
+        this.funk = funk;
         this.scanner = new Scanner(System.in);
-
     }
 
     public void menu() {
-        dao.readFromDisk();
+        funk.readFromDisk();
         menuOptions();
 
         boolean quit = false;
 
         while (!quit) {
             try {
+                System.out.println();
                 System.out.println("Vælg en handling: ");
                 int option = scanner.nextInt();
                 switch (option) {
@@ -27,25 +27,19 @@ public class TUI implements ITUI{
                         quit = true;
                         break;
                     case 1:
-                        createUser();
+                        funk.createUser();
                         break;
                     case 2:
-                        System.out.println("Indtast id");
-                        int id = scanner.nextInt();
-                        System.out.println(dao.getUser(id).toString());
+                        funk.showUser();
                         break;
                     case 3:
-                        System.out.println(dao.getUserList());
-                        System.out.println();
+                        System.out.println(funk.showAllUsers());
                         break;
                     case 4:
-
-
+                        funk.updateUser();
                         break;
                     case 5:
-                        System.out.println("Indtast ID på brugeren du vil slette");
-                        id = scanner.nextInt();
-                        dao.deleteUser(id);
+                        funk.deleteUser();
                         break;
                     case 6:
                         menuOptions();
@@ -69,74 +63,5 @@ public class TUI implements ITUI{
         System.out.println("4 for at rette en bruger");
         System.out.println("5 for at slette en bruger");
         System.out.println("6 for at se valgmulighederne\n");
-    }
-
-    @Override
-    public void createUser() throws DALException {
-        System.out.println("ID");
-        int userID = scanner.nextInt();
-        if (userID < 11 || userID > 99) {
-            throw new DALException("Ikke mellem intervallet 11 til 99");
-        }
-        System.out.println("Brugernavn");
-        String userName = scanner.next();
-        if (userName.length() < 2 || userName.length() > 20) {
-            throw new DALException("Brugernavn er ikke mellem 2 til 20 tegn");
-        }
-
-        System.out.println("Ini");
-        String ini = scanner.next();
-        if (ini.length() < 2 || ini.length() > 4) {
-            throw new DALException("Initial er ikke mellem 2 til 4 tegn");
-        }
-            System.out.println("CPR");
-            String cpr = scanner.next();
-            String password = password();
-            UserDTO user = null;
-
-            user.addRole("Admin");
-
-            user = new UserDTO(userID, userName, ini, cpr, password, user.getRoles());
-            dao.createUser(user);
-            System.out.println("Bruger oprettet\n");
-        }
-
-    @Override
-    public void updateUser() {
-
-
-
-
-    }
-
-    @Override
-    public void deleteUser() {
-
-    }
-
-    @Override
-    public void showUser() {
-
-    }
-
-    @Override
-    public void showAllUsers() {
-
-    }
-
-    public String password() {
-        String character = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        int lenght = 8;
-        String password = "";
-        Random random = new Random();
-        char[] text = new char[lenght];
-
-        for (int i = 0; i < lenght; i++) {
-            text[i] = character.charAt(random.nextInt(character.length()));
-        }
-        for (int i = 0; i < text.length; i++) {
-            password += text[i];
-        }
-        return password;
     }
 }
